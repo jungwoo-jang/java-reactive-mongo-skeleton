@@ -1,3 +1,3 @@
-package com.wesang.sample.teacher.dto;
+package com.wesang.reactive.sample.teacher.dto;
 
 public record TeacherPostResponse(String teacherId) {}
