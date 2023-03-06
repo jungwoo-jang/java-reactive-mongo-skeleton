@@ -1,0 +1,32 @@
+version: '3'
+services:
+  db:
+    image: 'mysql:8.0.30'
+    restart: unless-stopped
+    volumes:
+      - ./.volumes/mysql:/var/lib/mysql:rw
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    environment:
+      MYSQL_DATABASE: 'reviewyo'
+      MYSQL_USER: 'reviewyo_user'
+      MYSQL_PASSWORD: 'reviewyo_password'
+      MYSQL_ROOT_PASSWORD: 'root_password'
+    ports:
+      - '3307:3306'
+  redis:
+    image: 'redis:6.2.7'
+    ports:
+      - '6380:6379'
+  localstack:
+    image: localstack/localstack:1.3.1-arm64
+    environment:
+      - SERVICES=sqs,sns
+      - DEFAULT_REGION=ap-northeast-2
+      - EDGE_PORT=4566
+      - DEBUG=true
+    ports:
+      - '4566:4566'
+    volumes:
+      - ./.volumes/localstack:/var/lib/localstack
+      - ./.volumes/docker.sock:/var/run/docker.sock
+      - ./localstack/init.sh:/etc/localstack/init/ready.d/init-aws.sh

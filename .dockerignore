@@ -1,0 +1,9 @@
+.github/
+.gradle/
+
+.idea/
+.vscode/
+
+build/
+gen/
+skaffold/
